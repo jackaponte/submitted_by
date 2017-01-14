@@ -45,7 +45,8 @@ function submitted_by_form_node_type_form_alter(&$form, &$form_state) {
       '#type' => 'textfield',
       '#maxlength' => 255,
       '#title' => t("Byline text - @mode view mode", array('@mode' => $info['label'])),
-      '#default_value' => is_array($node_type->settings['submitted_by']) ? $node_type->settings['submitted_by'][$mode] : $node_type->settings['submitted_by'],
+      // TODO: stop the #default_value from being entered into new entity view modes multiple times
+      '#default_value' => (is_array($node_type->settings['submitted_by']) && isset($node_type->settings['submitted_by'][$mode])) ? $node_type->settings['submitted_by'][$mode] : $node_type->settings['submitted_by'],
       '#description' => t('When a node is displayed in the "@mode" view mode, the text in this box will be used to override the normal byline attribution and date-posted text.', array('@mode' => $info['label'])),
       '#element_validate' => array('token_element_validate'),
       '#token_types' => array('node'),
